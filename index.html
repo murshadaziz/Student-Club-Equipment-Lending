@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Club Gear Room - Equipment Lending</title>
+  <meta name="description" content="Student club equipment lending: inventory, reservations, approvals and returns.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <h1>Club Gear Room</h1>
+    <p>Lend, track and check back in the equipment your student club shares.</p>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#inventory">Inventory</a></li>
+        <li><a href="#reserve">Reserve</a></li>
+        <li><a href="#requests">Requests</a></li>
+        <li><a href="#return">Return</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- 1. Inventory: browse + filter -->
+    <section id="inventory" aria-labelledby="h-inventory">
+      <h2 id="h-inventory">Inventory</h2>
+      <form id="filter-form" class="row" role="search" aria-label="Filter inventory">
+        <div class="field">
+          <label for="search">Search by name or category</label>
+          <input type="search" id="search" placeholder="e.g. camera">
+        </div>
+        <div class="field">
+          <label for="f-condition">Condition</label>
+          <select id="f-condition">
+            <option value="">All</option>
+            <option>Good</option>
+            <option>Fair</option>
+            <option>Needs repair</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-status">Status</label>
+          <select id="f-status">
+            <option value="">All</option>
+            <option>Available</option>
+            <option>Reserved</option>
+            <option>In use</option>
+            <option>Under repair</option>
+          </select>
+        </div>
+      </form>
+      <p id="inventory-count" class="muted" aria-live="polite"></p>
+      <ul id="inventory-list" class="cards"></ul>
+      <p id="inventory-empty" class="empty" hidden>No equipment matches these filters. Clear the search or pick "All".</p>
+    </section>
+
+    <!-- 2. Reserve: form + conflict check -->
+    <section id="reserve" aria-labelledby="h-reserve">
+      <h2 id="h-reserve">Reserve equipment</h2>
+      <form id="reserve-form" novalidate>
+        <div class="field">
+          <label for="r-name">Borrower name</label>
+          <input type="text" id="r-name" name="name" autocomplete="name" required minlength="2">
+        </div>
+        <div class="field">
+          <label for="r-id">Student ID (6 digits)</label>
+          <input type="text" id="r-id" name="studentId" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required>
+        </div>
+        <div class="field">
+          <label for="r-item">Item</label>
+          <select id="r-item" name="item" required></select>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="r-start">From</label>
+            <input type="date" id="r-start" name="start" required>
+          </div>
+          <div class="field">
+            <label for="r-end">To</label>
+            <input type="date" id="r-end" name="end" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="r-purpose">Purpose</label>
+          <textarea id="r-purpose" name="purpose" rows="2" required minlength="5"></textarea>
+        </div>
+        <button type="submit">Request reservation</button>
+        <p id="reserve-msg" class="msg" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- 3. Requests: approve / reject -->
+    <section id="requests" aria-labelledby="h-requests">
+      <h2 id="h-requests">Requests</h2>
+      <p id="request-msg" class="msg" role="status" aria-live="polite"></p>
+      <ul id="request-list" class="requests"></ul>
+      <p id="request-empty" class="empty" hidden>No reservations yet. Use the form above to add one.</p>
+    </section>
+
+    <!-- 4. Return: checklist + condition update -->
+    <section id="return" aria-labelledby="h-return">
+      <h2 id="h-return">Return equipment</h2>
+      <form id="return-form" novalidate>
+        <div class="field">
+          <label for="ret-res">Approved booking</label>
+          <select id="ret-res" required></select>
+        </div>
+        <fieldset>
+          <legend>Return checklist</legend>
+          <label class="check"><input type="checkbox" name="check"> All parts and cables are present</label>
+          <label class="check"><input type="checkbox" name="check"> Item is clean</label>
+          <label class="check"><input type="checkbox" name="check"> Item powers on and works</label>
+          <label class="check"><input type="checkbox" name="check"> No visible damage</label>
+        </fieldset>
+        <div class="field">
+          <label for="ret-cond">Condition after return</label>
+          <select id="ret-cond" required>
+            <option value="">Choose a condition</option>
+            <option>Good</option>
+            <option>Fair</option>
+            <option>Needs repair</option>
+          </select>
+        </div>
+        <button type="submit">Check item in</button>
+        <p id="return-msg" class="msg" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Idea #22, Student Club Equipment Lending. Runs fully in the browser; data is saved in this browser only.</p>
+    <button type="button" id="reset" class="link">Reset sample data</button>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
